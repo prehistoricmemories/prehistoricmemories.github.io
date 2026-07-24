@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OAuth Callback — Prehistoric Memories</title>
+<style>
+  body{background:#0A0A0A;color:#D7D7D7;font-family:'Courier New',monospace;max-width:640px;margin:0 auto;padding:64px 24px;text-align:center;}
+  h1{color:#D4863A;font-size:20px;margin-bottom:24px;}
+  .code-box{background:#151515;border:1px solid #333;border-radius:8px;padding:24px;font-size:16px;word-break:break-all;margin:24px 0;}
+  .label{color:#8A8A8A;font-size:12px;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+  .hint{color:#8A8A8A;font-size:13px;margin-top:32px;line-height:1.6;}
+  button{background:#D4863A;color:#0A0A0A;border:none;padding:10px 20px;border-radius:6px;font-family:inherit;font-weight:bold;cursor:pointer;margin-top:12px;}
+  button:hover{opacity:0.85;}
+  .none{color:#666;font-style:italic;}
+</style>
+</head>
+<body>
+<h1>Pinterest OAuth Callback</h1>
+<div class="label">Authorization Code</div>
+<div class="code-box" id="code">reading URL...</div>
+<button id="copy-btn" onclick="copyCode()" style="display:none">Copy Code</button>
+<div class="hint">
+  This page does not send your code anywhere. Copy it and paste it into the manual token-exchange step yourself.<br>
+  If you see an error param instead of code, the authorization was denied or something went wrong — check the error description below.
+</div>
+<div id="error" class="label" style="margin-top:24px;color:#c0392b"></div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get('code');
+  const error = params.get('error');
+  const errorDesc = params.get('error_description');
+  const codeBox = document.getElementById('code');
+  const copyBtn = document.getElementById('copy-btn');
+  const errorBox = document.getElementById('error');
+
+  if (code) {
+    codeBox.textContent = code;
+    copyBtn.style.display = 'inline-block';
+  } else {
+    codeBox.textContent = 'No code found in URL.';
+    codeBox.className = 'code-box none';
+  }
+
+  if (error) {
+    errorBox.textContent = 'Error: ' + error + (errorDesc ? ' — ' + errorDesc : '');
+  }
+
+  function copyCode() {
+    navigator.clipboard.writeText(code).then(() => {
+      copyBtn.textContent = 'Copied!';
+      setTimeout(() => { copyBtn.textContent = 'Copy Code'; }, 1500);
+    });
+  }
+</script>
+</body>
+</html>
