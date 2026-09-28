@@ -1,0 +1,14 @@
+# Basic safety ignores (added 2026-09-28)
+.env
+.env.*
+!.env.example
+*.log
+*.bak
+*.bak_*
+.tmp_*
+__pycache__/
+*.pyc
+node_modules/
+.DS_Store
+Thumbs.db
+desktop.ini
